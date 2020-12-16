@@ -47,6 +47,7 @@ router.get('/', async (req, res) => {
   yelpData.price = biz.price;
   yelpData.address = bizAddress;
   yelpData.addressLink = mapsURL;
+  yelpData.yelpLink = biz.url;
   yelpData.phone = biz.display_phone;
   yelpData.distance = metersToMiles(biz.distance);
 
@@ -69,6 +70,7 @@ router.get('/', async (req, res) => {
     oYelpData.price = oBiz.price;
     oYelpData.address = oBizAddress;
     oYelpData.addressLink = oMapsURL;
+    oYelpData.yelpLink = oBiz.url;
     oYelpData.phone = oBiz.display_phone;
     oYelpData.distance = metersToMiles(oBiz.distance);
 
