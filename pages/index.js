@@ -5,25 +5,64 @@ import styles from '../styles/Home.module.css';
 
 import {Container, Row, Col, Button} from 'react-bootstrap';
 import RangeSlider from 'react-bootstrap-range-slider';
+import PropagateLoader from 'react-spinners/PropagateLoader';
+
+import BusinessResults from '../components/BusinessResults';
+import MainResult from '../components/MainResult';
+
+// import logo from '/logo.png';
 
 export default function Home() {
-  const [distance, setDistance] = useState(5)
+  const [distance, setDistance] = useState(6)
+  const [mainBusiness, setMainBusiness] = useState('')
+  const [businesses, setBusinesses] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [contentState, setcontentState] = useState('landing')
+
+  // useEffect(() => {
+  // }, [])
 
   const handleChangeDistance = (event) => {
     setDistance(event.target.value)
   }
-  return (
-    <div>
+
+  const handleDecideBtn = () => {
+    if (navigator.geolocation){
+      setLoading(true)
+      navigator.geolocation.getCurrentPosition( async (position) => {
+        let lat = position.coords.latitude
+        let long = position.coords.longitude
+
+        console.log(`https://grumblejumble.herokuapp.com/api/search?latitude=${lat}&longitude=${long}&radius=${distance}`)
+        const res = await axios.get(`https://grumblejumble.herokuapp.com/api/search?latitude=${lat}&longitude=${long}&radius=${distance}`)
+        const results = res.data.results
+        setMainBusiness(results[0])       
+        setBusinesses(results.slice(1,6))
+        setLoading(false)
+        setcontentState('results')
+      })
+    }else{
+      alert('Turn on your location fool.')
+    }
+  }
+
+  const handleGoBackBtn = () => {
+    setcontentState('landing');
+  }
+
+  if (contentState === 'landing') {
+    return (
       <div className={styles.background}>
-        <Container className={styles.landingLayout}>          
+        <Container className={styles.homeLayout}>          
             <div className={styles.landingText}>
-              <h1 style={{fontSize: '10vw'}}>GrumbleJumble</h1>
-              <p style={{fontSize: '5vw'}}>Can't decide what to eat?</p>
+              <img src="/images/logo.png" style={{height: '20vw'}} alt="logo"/>
+              <h1 style={{fontSize: '50px'}}>GrumbleJumble</h1>
+              <p style={{fontSize: '25px'}}>Can't decide what to eat?</p>
             </div>
-
+  
             <div className={styles.distanceSection}>
-              <p style={{fontSize: '3vw'}}>How far are you willing to travel?</p>
-
+              <p style={{fontSize: '18px'}}>How far are you willing to travel?</p>
+  
               <RangeSlider
                   value={distance}
                   min={1}
@@ -36,11 +75,33 @@ export default function Home() {
                   onChange={handleChangeDistance}
                   tooltipLabel={currentValue => `${currentValue} Miles`}
                 />   
-
+  
               </div>        
-            <Button variant='info' className={styles.decideBtn}>Decide for me!</Button>
+            <Button variant='info' className={styles.decideBtn} onClick={handleDecideBtn}>Decide for me!</Button>
+            {loading && 
+            <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+              <PropagateLoader
+                size={30}
+                loading={loading}
+                color='#17a2b8'
+                css='margin: 0rem 2rem 0rem 0rem;'
+              />
+              </div>}  
         </Container>
       </div>
-    </div>
-  )
+    )
+  } else {
+    return(
+      <div className={styles.background}>
+        <Container className={styles.homeLayout}>  
+        <img src="/images/logo.png" style={{height: '20vw'}} alt="logo"/>
+
+        <MainResult business={mainBusiness} />
+        <Button variant='info' className={styles.goBackBtn} onClick={handleGoBackBtn}>Decide for me again!</Button>
+
+          {businesses.length > 0 ? <BusinessResults businesses={businesses}/> : ''}
+        </Container>
+      </div>
+    )
+  }
 }

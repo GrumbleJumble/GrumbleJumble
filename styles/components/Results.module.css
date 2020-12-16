@@ -10,7 +10,7 @@
   transition: 0.5s ease;
   cursor: pointer;
 
-  width: 10rem;
+  width: 12rem;
   margin: 0.5rem;
   background: #fdfdfe;
 }
@@ -19,6 +19,14 @@
   color: #212529;
   text-decoration: none;
   padding: 0;
+}
+
+.businessCardImage {
+  width: 11.9rem;
+  height: 11.9rem;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .businessCard:hover {
