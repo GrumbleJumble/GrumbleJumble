@@ -14,9 +14,13 @@ const reg = /-?([0-9]+).([0-9]+)/g;
 
 router.get('/', async (req, res) => {
 
+  if (typeof req.query.latitude === 'undefined') { res.status(400).send('Empty Latitude Parameter'); return; }
+  if (typeof req.query.longitude === 'undefined') { res.status(400).send('Empty Longitude Parameter'); return; }
+
   let latitude = req.query.latitude;
   let longitude = req.query.longitude;
-  let radius = req.query.radius || 5000;
+  let radius = req.query.radius || 5;
+  radius *= 1609;
 
   if (!(latitude.match(reg))) { res.status(400).send('Improperly Formatted Latitude Parameter!'); return; }
   if (!(longitude.match(reg))) { res.status(400).send('Improperly Formatted Longitude Parameter!'); return; }
