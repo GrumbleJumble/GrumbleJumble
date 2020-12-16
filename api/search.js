@@ -1,4 +1,3 @@
-const config = require('../config.json');
 const package = require('../package.json');
 
 const express = require('express');
@@ -9,7 +8,7 @@ const router = express.Router();
 const baseURL = "https://api.yelp.com/v3/businesses/search";
 const term = "restaurant";
 const open_now = true;
-const apikey = process.env.YELP_API_KEY || config.yelp_api_key;
+const apikey = process.env.YELP_API_KEY;
 
 const reg = /-?([0-9]+).([0-9]+)/g;
 
