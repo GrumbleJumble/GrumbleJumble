@@ -1,7 +1,6 @@
 const express = require('express');
 const axios = require('axios');
 
-const config = require('./config.json');
 const package = require('./package.json');
 
 const app = express();
