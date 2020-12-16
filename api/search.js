@@ -9,6 +9,7 @@ const router = express.Router();
 const baseURL = "https://api.yelp.com/v3/businesses/search";
 const term = "restaurant";
 const open_now = true;
+const apikey = process.env.YELP_API_KEY || config.yelp_api_key;
 
 const reg = /-?([0-9]+).([0-9]+)/g;
 
@@ -22,7 +23,7 @@ router.get('/', async (req, res) => {
   if (!(longitude.match(reg))) { res.status(400).send('Improperly Formatted Longitude Parameter!'); return; }
 
   let requestURL = `${baseURL}?term=${term}&radius=${radius}&open_now=${open_now}&latitude=${latitude}&longitude=${longitude}`;
-  let yelpRes = await axios.get(requestURL, {headers: {'Authorization': `Bearer ${config.yelp_api_key}`}});
+  let yelpRes = await axios.get(requestURL, {headers: {'Authorization': `Bearer ${apikey}`}});
 
   var results = new Object();
   results.results = [];
