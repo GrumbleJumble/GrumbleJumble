@@ -14,7 +14,7 @@ const app = express();
 //   next();
 // });
 
-app.use(cors())
+app.use(cors());
 app.use('/api/search', require('./api/search.js'));
 app.use(express.json({ extended: false }));
 
