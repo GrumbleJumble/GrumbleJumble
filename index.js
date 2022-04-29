@@ -44,7 +44,7 @@ let server = SERVER.express.listen(PORT, () => {
   console.log('\n====================================');
   console.log(`GrumbleJumble API Online`);
   console.log(`Current Server Time: ${new Date()}`);
-  console.log(`http://api.grumblejumble.com:${server.address().port}`);
+  console.log(`https://api.grumblejumble.com:${server.address().port}`);
   console.log(`====================================\n`);
 
 });
