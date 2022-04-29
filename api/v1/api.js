@@ -1,4 +1,4 @@
-const package = require('../package.json');
+const package = require(`${SERVER.path}/package.json`);
 
 const express = require('express');
 const axios = require('axios');
