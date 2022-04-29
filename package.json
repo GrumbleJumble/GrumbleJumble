@@ -10,7 +10,7 @@
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "dependencies": {
-    "axios": "^0.27.2",
+    "axios": "^0.21.2",
     "bootstrap": "^5.1.3",
     "concurrently": "^7.1.0",
     "cors": "^2.8.5",
