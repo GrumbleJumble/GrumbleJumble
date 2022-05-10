@@ -33,10 +33,10 @@ export default function Home() {
         let lat = position.coords.latitude
         let long = position.coords.longitude
 
-        console.log(`https://grumblejumble.herokuapp.com/api/search?latitude=${lat}&longitude=${long}&radius=${distance}`)
-        const res = await axios.get(`https://grumblejumble.herokuapp.com/api/search?latitude=${lat}&longitude=${long}&radius=${distance}`)
+        console.log(`https://api.grumblejumble.com/v1/search?latitude=${lat}&longitude=${long}&radius=${distance}`)
+        const res = await axios.get(`https://api.grumblejumble.com/v1/search?latitude=${lat}&longitude=${long}&radius=${distance}`)
         const results = res.data.results
-        setMainBusiness(results[0])       
+        setMainBusiness(results[0])
         setBusinesses(results.slice(1,6))
         setLoading(false)
         setcontentState('results')
@@ -53,16 +53,16 @@ export default function Home() {
   if (contentState === 'landing') {
     return (
       <div className={styles.background}>
-        <Container className={styles.homeLayout}>          
+        <Container className={styles.homeLayout}>
             <div className={styles.landingText}>
               <img src="/images/logo.png" style={{height: '20vw'}} alt="logo"/>
               <h1 style={{fontSize: '50px'}}>GrumbleJumble</h1>
               <p style={{fontSize: '25px'}}>Can't decide what to eat?</p>
             </div>
-  
+
             <div className={styles.distanceSection}>
               <p style={{fontSize: '18px'}}>How far are you willing to travel?</p>
-  
+
               <RangeSlider
                   value={distance}
                   min={1}
@@ -74,11 +74,13 @@ export default function Home() {
                   variant='info'
                   onChange={handleChangeDistance}
                   tooltipLabel={currentValue => `${currentValue} Miles`}
+
                 />   
   
               </div>        
             <Button variant='info' className={styles.decideBtn} onClick={handleDecideBtn}>Let's Jumble!</Button>
             {loading && 
+
             <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
               <PropagateLoader
                 size={30}
@@ -86,14 +88,14 @@ export default function Home() {
                 color='#17a2b8'
                 css='margin: 0rem 2rem 0rem 0rem;'
               />
-              </div>}  
+              </div>}
         </Container>
       </div>
     )
   } else {
     return(
       <div className={styles.background}>
-        <Container className={styles.homeLayout}>  
+        <Container className={styles.homeLayout}>
         <img src="/images/logo.png" style={{height: '20vw'}} alt="logo"/>
 
         <MainResult business={mainBusiness} />

@@ -12,7 +12,9 @@ const apikey = process.env.YELP_API_KEY;
 
 const reg = /-?([0-9]+).([0-9]+)/g;
 
-router.get('/', async (req, res) => {
+router.get('/', (req, res) => { res.status(400).send('This API version is deprecated. Please use version 2!'); });
+
+router.get('/search', async (req, res) => {
 
   if (typeof req.query.latitude === 'undefined') { res.status(400).send('Empty Latitude Parameter'); return; }
   if (typeof req.query.longitude === 'undefined') { res.status(400).send('Empty Longitude Parameter'); return; }
