@@ -3,8 +3,11 @@ const axios = require('axios');
 
 const router = express.Router();
 
-const baseURL = "https://api.yelp.com/v3/businesses/search";
-const apiKey = process.env.YELP_API_KEY || require(`${SERVER.path}/api.json`).apikey;
+const baseYelpURL = "https://api.yelp.com/v3/businesses/search";
+const baseGoogleURL = "https://www.googleapis.com/customsearch/v1";
+const yelpApiKey = process.env.YELP_API_KEY || require(`${SERVER.path}/api.json`).yelp_api_key;
+const googleApiKey = process.env.GOOGLE_API_KEY || require(`${SERVER.path}/api.json`).google_api_key;
+const googleSearchEngineID = process.env.SEARCH_ENGINE_ID || require(`${SERVER.path}/api.json`).search_engine_id;
 const reg = /-?([0-9]+).([0-9]+)/g;
 
 /* Optional Parameters */
@@ -21,7 +24,7 @@ const endpointInformation = {
     optionalParameters: null,
     response: "JSON Object with available API Version 2 Endpoints"
   },
-  random: {
+  jumble: {
     requiredParameters: {
       'lat': 'Standard ISO6709 +- Decimal Representation of Latitude',
       'long': 'Standard ISO6709 +- Decimal Representation of Longitude'
@@ -36,6 +39,13 @@ const endpointInformation = {
       'business': 'Random Business conforming to parameters',
       'additionalBusinesses': 'List of up to 4 additional businesses conforming to parameters; null if additionalResults is false'
     }
+  },
+  grumble: {
+    requiredParameters: null,
+    optionalParameters: {
+      'limit': 'Integer, Defaults to 10'
+    },
+    response: "Array of Image URLs"
   }
 }
 
@@ -61,10 +71,8 @@ router.get('/jumble', async (req, res) => {
   if (!(longitude.match(reg))) { return res.status(400).send('Invalid Parameter: LONGITUDE'); }
 
   /* Construct yelp request and send to Yelp API */
-  let yelpRequest = `${baseURL}?term=${term}&radius=${radius}&open_now=${openNow}&latitude=${latitude}&longitude=${longitude}`;
-  let yelpResponse = await axios.get(yelpRequest, { headers: { 'Authorization': `Bearer ${apiKey}` }}).catch(err => {
-    console.log(err); res.status(500).end();
-  });
+  let yelpRequest = `${baseYelpURL}?term=${term}&radius=${radius}&open_now=${openNow}&latitude=${latitude}&longitude=${longitude}`;
+  let yelpResponse = await axios.get(yelpRequest, { headers: { 'Authorization': `Bearer ${yelpApiKey}` }}).catch(err => { console.log(err); res.status(500).end(); });
 
   /* Results Object */
   let results = new Object();
@@ -134,7 +142,23 @@ router.get('/jumble', async (req, res) => {
 
 });
 
-router.get('')
+router.get('/grumble', async(req, res) => {
+
+  let limit = parseInt(req.query.lat) || 10;
+  if (isNaN(limit)) { return res.status(400).send('Invalid Parameter: LIMIT'); }
+
+  let query = "food pictures";
+
+  let googleRequest = `${baseGoogleURL}?key=${googleApiKey}&cx=${googleSearchEngineID}&q=${query}`;
+  let googleResponse = await axios.get(googleRequest).catch(err => { console.log(err); res.status(500).end(); });
+
+  let results = [];
+
+  for (let i = 0; i < limit; i++) { results.push(googleResponse.data.items[i].pagemap.cse_image[0].src); }
+
+  res.status(200).json(results);
+
+});
 
 function metersToMiles(m) { return `${Math.round(m / 1609 * 100) / 100} mi.`; }
 
