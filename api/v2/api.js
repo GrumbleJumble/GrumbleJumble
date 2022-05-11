@@ -42,7 +42,7 @@ const endpointInformation = {
 
 router.get('/', (req, res) => { /* Available Endpoints */ return res.status(200).json(endpointInformation); });
 
-router.get('/random', async (req, res) => {
+router.get('/jumble', async (req, res) => {
 
   /* Check if required parameters have been left blank */
   if (typeof req.query.lat === 'undefined') { return res.status(400).send('Parameter: LATITUDE cannot be left blank'); }
@@ -133,6 +133,8 @@ router.get('/random', async (req, res) => {
   res.status(200).json(results);
 
 });
+
+router.get('')
 
 function metersToMiles(m) { return `${Math.round(m / 1609 * 100) / 100} mi.`; }
 
