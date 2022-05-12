@@ -144,7 +144,7 @@ router.get('/jumble', async (req, res) => {
 
 router.get('/grumble', async(req, res) => {
 
-  let limit = parseInt(req.query.lat) || 10;
+  let limit = parseInt(req.query.limit) || 10;
   if (isNaN(limit)) { return res.status(400).send('Invalid Parameter: LIMIT'); }
 
   let query = "food pictures";
