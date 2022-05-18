@@ -74,11 +74,13 @@ export default function Home() {
                   variant='info'
                   onChange={handleChangeDistance}
                   tooltipLabel={currentValue => `${currentValue} Miles`}
-                />
 
-              </div>
-            <Button variant='info' className={styles.decideBtn} onClick={handleDecideBtn}>Decide for me!</Button>
-            {loading &&
+                />   
+  
+              </div>        
+            <Button variant='info' className={styles.decideBtn} onClick={handleDecideBtn}>Let's Jumble!</Button>
+            {loading && 
+
             <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
               <PropagateLoader
                 size={30}
