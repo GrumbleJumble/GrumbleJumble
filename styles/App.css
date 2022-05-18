@@ -1,3 +1,11 @@
+:root {
+  --sky-blue: #5BC0DE;    /* Primary Brand Color */
+  --blue-green: #00C2CB;  /* Secondary Brand Color */
+  --pink: #ffddee;        /* Accent Color */
+  --vanilla: #ffffee;     /* Primary Text Color */
+  --dark-grey: #343A40;   /* Secondary Text Color or Embellishments */
+}
+
 * {
   box-sizing: border-box;
 }
