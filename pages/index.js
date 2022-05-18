@@ -33,7 +33,7 @@ export default function Home() {
         let lat = position.coords.latitude
         let long = position.coords.longitude
 
-        const yelpSearchUrl = `http://localhost:5000/v1/search?latitude=0&longitude=${long}&radius=${distance}`
+        const yelpSearchUrl = `http://localhost:5000/v1/search?latitude=${lat}&longitude=${long}&radius=${distance}`
         console.log(yelpSearchUrl)
 
         try {
