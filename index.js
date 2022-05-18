@@ -6,6 +6,9 @@ global.SERVER = {};
 /* API Path */
 SERVER.path = __dirname;
 
+/* Environment Variables */
+if (process.env.NODE_ENV !== 'production') { require('dotenv').config(); }
+
 /* Initialize Express Server */
 const express = require('express');
 SERVER.express = express();

@@ -5,9 +5,9 @@ const router = express.Router();
 
 const baseYelpURL = "https://api.yelp.com/v3/businesses/search";
 const baseGoogleURL = "https://www.googleapis.com/customsearch/v1";
-const yelpApiKey = process.env.YELP_API_KEY || require(`${SERVER.path}/api.json`).yelp_api_key;
-const googleApiKey = process.env.GOOGLE_API_KEY || require(`${SERVER.path}/api.json`).google_api_key;
-const googleSearchEngineID = process.env.SEARCH_ENGINE_ID || require(`${SERVER.path}/api.json`).search_engine_id;
+const yelpApiKey = process.env.YELP_API_KEY;
+const googleApiKey = process.env.GOOGLE_API_KEY;
+const googleSearchEngineID = process.env.SEARCH_ENGINE_ID;
 const reg = /-?([0-9]+).([0-9]+)/g;
 
 /* Optional Parameters */
