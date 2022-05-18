@@ -33,13 +33,25 @@ export default function Home() {
         let lat = position.coords.latitude
         let long = position.coords.longitude
 
-        console.log(`https://api.grumblejumble.com/v1/search?latitude=${lat}&longitude=${long}&radius=${distance}`)
-        const res = await axios.get(`https://api.grumblejumble.com/v1/search?latitude=${lat}&longitude=${long}&radius=${distance}`)
-        const results = res.data.results
-        setMainBusiness(results[0])
-        setBusinesses(results.slice(1,6))
-        setLoading(false)
-        setcontentState('results')
+        const yelpSearchUrl = `http://localhost:5000/v1/search?latitude=0&longitude=${long}&radius=${distance}`
+        console.log(yelpSearchUrl)
+
+        try {
+          const res = await axios.get(yelpSearchUrl)
+          const results = res.data.results
+          setMainBusiness(results[0])
+          setBusinesses(results.slice(1,6))
+          setLoading(false)
+          setcontentState('results')
+        } catch (e) {
+          if (e.response) {
+            let errMsg = `${e.response.status} error from Yelp API: ${e.response.data}`
+            console.log(errMsg);
+            alert(errMsg)
+          } else {
+            alert('Error calling Yelp API')
+          }
+        }
       })
     }else{
       alert('Turn on your location fool.')

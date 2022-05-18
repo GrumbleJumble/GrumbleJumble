@@ -17,9 +17,9 @@ const https = require('https');
 /* CORS Configuration */
 const cors = require('cors');
 const originWhitelist = [
-  'https://localhost:8000',
-  'https://localhost:5000',
-  'https://localhost:3000',
+  'http://localhost:8000',
+  'http://localhost:5000',
+  'http://localhost:3000',
   'https://grumblejumble.com'
 ]
 const corsOptions = { origin: function (origin, callback) { if (originWhitelist.indexOf(origin) !== -1) { callback(null, true); } else { callback(null, false); }}}
